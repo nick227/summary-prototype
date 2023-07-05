@@ -1,0 +1,64 @@
+
+.summary-container{
+  z-index: 2;
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  opacity: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  background-color: #e6e6e6;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.summary-container ul {
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+.summary-container ul li{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 15px;
+  min-width: 145px;
+  margin: 0px;
+}
+
+.summary-container img{
+  border-radius: 15px;
+  margin-right: 15px;
+}
+
+.summary-container.center{
+  position: absolute;
+  width: 320px;
+  display: flex;
+  justify-content: center;
+}
+
+.summary-container.left{
+  width:  350px;
+  position: relative;
+  margin-bottom: 11px;
+}
+
+.summary-container.left:hover{
+  outline: 1px solid blue;
+}
+
+.summary-list {
+  position: fixed;
+  top: 125px;
+  left: 30px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+} 
+
+.summary-container .tooltip {
+  display: none;
+}

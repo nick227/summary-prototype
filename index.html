@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auto-Summary Prototype</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.css" integrity="sha512-wCVOuVtxsXqrQK7tj9j4BvyfITQmpp7UE7mVilD7aieGLYFEIAa5UKTP1RapOf6dxQ9JIKAneakcyykWG4r4Ow==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.js" integrity="sha512-LGiXf+jHGTHcIybSsOWO3I/in+OObCkcEsWIZ7IyhzfD6RzD5qDUw2CK+JveuI7zTSEcDG//bIOvOpAJW2BWsg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.extensions.min.js" integrity="sha512-i0+IGP2OBJG5Lioj9FaBr30x7Ci39dWQb8BhSd8J86p48OgctpfXXq0hG6cmCbCkKh4tn335pz9b3seChGFdKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://fonts.cdnfonts.com/css/red-hat-display" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./css/style.css">
+  <link rel="stylesheet" type="text/css" href="./css/forms.css">
+</head>
+<body>
+    <div class="topbar">
+      <select id="stylePicker">
+        <option selected="true" value="1">thumbnail and fields</option>
+        <option value="2">only fields</option>
+        <option value="3">only thumbnail</option>
+        <option value="4">mini-dashboard</option>
+      </select>
+          <h1>California State Registration</h1>
+          <div class="controls">
+            <label for="leftMode">
+              <input id="leftMode" type="radio" name="summaryMode" value="left" onchange="clearSummaries()" checked />
+              left
+            </label>
+            <label for="centerMode">
+              <input id="centerMode" type="radio" name="summaryMode" value="center" onchange="clearSummaries()" />
+              center
+            </label>
+            <label for="noneMode">
+              <input id="noneMode" type="radio" name="summaryMode" value="none" onchange="clearSummaries()" />
+              none
+            </label>
+            <label for="titlesOnlyOn">
+              <input id="titlesOnlyOn" type="checkbox" name="titlesOnlyOn" onchange="clearSummaries()" />
+              titles
+            </label>
+            <label for="toasterOn">
+              <input id="toasterOn" type="checkbox" name="toasterOn" onchange="clearSummaries()" />
+              toaster
+            </label>
+            <label for="autofillOn">
+              <input id="autofillOn" type="checkbox" name="autofillOn" onchange="clearSummaries()" />
+              autofill
+            </label>
+          </div>
+    </div>
+
+  <section class="main" id="fullpage"></section>
+
+  <div id="toast" class="toast">
+    <div class="row">
+      <div class="col">
+        <h2>Section Complete!</h2>
+        <p><a href="#">3 fields</a> completed<br><a href="#">3 fields</a> pending</p>
+        <a href="#">view page summary</a>
+      </div>
+      <div class="col">
+        <img src="./images/222.png">
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="./js/inputmask.min.js"></script>
+  <script type="text/javascript" src="./js/globals.js"></script>
+  <script type="text/javascript" src="./js/style-picker.js"></script>
+  <script type="text/javascript" src="./js/fullpage.js"></script>
+  <script type="text/javascript" src="./js/toast.js"></script>
+  <script type="text/javascript" src="./js/summary.js"></script>
+  <script type="text/javascript" src="./js/fields.js"></script>
+  <script type="text/javascript" src="./js/masks.js"></script>
+  <script type="text/javascript" src="./js/autofill.js"></script>
+  <script type="text/javascript" src="./js/script.js"></script>
+</body>
+</html>

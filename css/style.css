@@ -1,0 +1,257 @@
+html, body {
+  font-family: 'Red Hat Text', sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#fullpage {
+  min-height: 100vh;
+}
+
+ul{
+  list-style-type: none;
+}
+
+a{
+  color: white;
+}
+
+h2, h3, h4, h1, p{
+  margin: 0;
+  padding: 5px 0;
+}
+
+h1{
+  font-size: 25px;
+}
+
+h2{
+  text-align: center;
+  border-radius: 15px;
+  font-weight: 400;
+  font-size: 33px;
+}
+
+.row{
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.col{
+  width: 50%;
+}
+
+#stylePicker{
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  top: 11px;
+  left: 20px;
+}
+
+section.main{
+  width: 100%;
+  height: 100%;
+}
+.section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 0;
+}
+
+.fp-overflow{
+  overflow-x: hidden;
+  position: relative;
+}
+
+.section .confirm-container{
+  border: none;
+  width: 100%;
+  text-align: right;
+  white-space: nowrap;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.section:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.section:nth-child(even) {
+  background-color: #fff6f0;
+}
+
+.section:nth-child(odd) h2 {
+  background-color: #fff6f0;
+}
+
+.section:nth-child(even) h2 {
+  background-color: #f2f2f2;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.picsum-image img{
+  border-radius: 50%;
+}
+
+.toast {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 5px;
+  display: none;
+  opacity: 0;
+  animation-name: fadeInScale;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  text-align: left;
+  width: 350px;
+  height: 150px;
+}
+
+.toast .col:nth-child(1){
+  width: 175px;
+  padding-right: 25px;
+}
+
+.toast .col:nth-child(2){
+  width: 150px;
+}
+
+.toast h2 {
+  text-align: left;
+  font-size: 20px;
+}
+
+.toast img{
+  width: 150px;
+}
+
+
+.topbar{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 1;
+  background: white;
+}
+
+.topbar .controls{
+  display: flex;
+  width: auto;
+  position: absolute;
+  right: 20px;
+  white-space: nowrap;
+}
+
+.summary-container.active{
+  outline: 4px solid lightgray;
+}
+
+.fade-out {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  opacity: 1;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    transform: translateY(1000);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutScale {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+
+.summary-last{
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background: olivedrab;
+  color: white;
+}
+
+.summary-container h3{
+  background: transparent;
+  color: black;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom: 1px solid white;
+  margin-bottom: 20px;
+}
