@@ -10,7 +10,7 @@ const classNames = {
 };
 
 const lastSummaryDelay = 2000;
-const toasterShowLength = 300550;
+const toasterShowLength = 3000;
 let fullpage_api = null;
 let toasterTimer = null;
 let summaryMinWidth = 145;
