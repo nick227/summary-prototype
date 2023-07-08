@@ -6,13 +6,13 @@ section.innerHTML = section.innerHTML + formHTML;
 
 const keys = formSections.map(section => section.sectionId);
 
-setupValidationListeners(keys);
-
 setupFullpage(keys.map(name => name+'-fullpage'));
 
 setupStylePicker();
 
 setupAutoFill();
+
+setupValidationListeners(keys);
 
 document.addEventListener('DOMContentLoaded', function() {
   const fields = []

@@ -51,6 +51,7 @@ function updateAutoFillConfirm() {
     const confirmCheckbox = document.createElement('input');
     confirmCheckbox.type = 'checkbox';
     confirmCheckbox.id = checkId;
+    confirmCheckbox.className = classNames.confirmCheckbox;
     confirmCheckbox.dataset.sectionId = sectionId;
     confirmCheckbox.addEventListener("change", function(){
     	handleAutofillConfirm(sectionId, event.target);
@@ -65,15 +66,12 @@ function updateAutoFillConfirm() {
 
 function handleAutofillConfirm(sectionId, checkboxElm){
     const isConfirmChecked = checkboxElm.checked;
+    const section = document.querySelector(`#${sectionId}`);
     if(isConfirmChecked){
-    	const sectionName = checkboxElm.closest('.section').id;
-		const section = document.querySelector(`#${sectionName}`);
-		const sectionFields = section.querySelectorAll('input, select, textarea');
-        showSummary(section, sectionFields);
-        console.log("----------------");
-        console.log(sectionName, section, sectionFields);
+      showSummary(section);
     	checkboxElm.blur();
     	fullpage_api.moveSectionDown();
+    } else {
+      removeSummary(section);
     }
-
 }

@@ -12,3 +12,7 @@ function setupFullpage(anchors) {
     }
   });
 }
+
+function reloadFullPage() {
+  fullpage_api.reBuild();
+}

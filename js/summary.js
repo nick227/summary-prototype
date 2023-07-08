@@ -1,19 +1,20 @@
 
-const summaryTemplates = {
-  basic: `
-    <div class="${classNames.picsumImage} row">
-      <img src="${getRandomImageURL(100, 100)}" alt="Picsum Image">
-      <ul class="${classNames.fieldValuesList}"></ul>
-    </div>
-  `
-};
+function removeSummary(section) {
+  const item = document.querySelector(`div[data-section-id="${section.id}"]`);
+  const lastItem = document.querySelector('.'+classNames.summaryLast);
+  item.remove();
+  if(lastItem){
+      lastItem.remove();
+  }
+}
 
-function showSummary(section, sectionFields) {
+function showSummary(section, className='') {
+  const sectionFields = section.querySelectorAll('input, select, textarea');
   const selectedSummaryMode = document.querySelector('input[name="summaryMode"]:checked').value;
 
   if (selectedSummaryMode === 'none') return;
 
-  const summaryElm = createSummary(sectionFields);
+  const summaryElm = createSummary(section.id, sectionFields);
   summaryElm.classList.add(selectedSummaryMode);
 
   if (selectedSummaryMode === 'center') {
@@ -97,25 +98,27 @@ function updateExistingElement(existingElm, newElm) {
   }
 }
 
-function realTimeUpdateSummary(sectionFields){
-  console.log("realTimeUpdateSummary", sectionFields);
-}
+function syncSummary(sectionId, sectionFields) {
+  const section = document.getElementById(sectionId);
+  const summaryList = document.querySelector('.'+classNames.summaryList);
+  const sectionSummaryLastIdElm = document.querySelector('.section-summary-last');
+console.log("  sync", sectionSummaryLastIdElm)
+  if(sectionSummaryLastIdElm){
+    console.log("  okkkkay", sectionSummaryLastIdElm)
+    updateLastSummarySection();
+  }
 
-function syncSummary(sectionFields) {
-  let summaryList = document.querySelector('.'+classNames.summaryList);
   if (summaryList) {
-    
-    const summaryElm = createSummary(sectionFields);
-    const existingSummaryElm = summaryList.querySelector(`.summary-container[data-section-id="${summaryElm.dataset.sectionId}"]`);
-
+    const existingSummaryElm = summaryList.querySelector(`.summary-container[data-section-id="${sectionId}"]`);
     if (existingSummaryElm) {
-      // Update the values in the existing summary container
       const existingFieldValuesList = existingSummaryElm.querySelector(`.${classNames.fieldValuesList}`);
-      
-      const newFieldValuesList = summaryElm.querySelector(`.${classNames.fieldValuesList}`);
+      if (existingFieldValuesList) {
+          const sectionTitle = getSummaryTitle(sectionId);
+          const fieldsCommaList = createFieldCommaList(sectionFields);
+          existingFieldValuesList.innerHTML = '';
+          existingFieldValuesList.appendChild(makeLiElm(sectionTitle, 'title'));
+          existingFieldValuesList.appendChild(makeLiElm(fieldsCommaList));
 
-      if (existingFieldValuesList && newFieldValuesList) {
-        existingFieldValuesList.innerHTML = newFieldValuesList.innerHTML;
       }
     }
   }
@@ -136,10 +139,6 @@ function getTextContentRecursively(element) {
   return text;
 }
 
-function shouldCheckElement(element) {
-  return ['P', 'H2', 'LI'].includes(element.tagName);
-}
-
 function setTextContentRecursively(element, text) {
   if (element.nodeType === Node.TEXT_NODE) {
     element.textContent = text;
@@ -151,44 +150,63 @@ function setTextContentRecursively(element, text) {
   }
 }
 
-function createSummary(sectionFields) {
-  const section = sectionFields[0].closest('.section');
-  const summaryContainer = createSummaryContainer(section.id);
-  const fieldValuesList = summaryContainer.querySelector('.field-values-list');
-  const padding = 10;
-  const titlesOnlyMode = document.querySelector('#titlesOnlyOn').checked;
-  updateSummaryImage(summaryContainer);
-  clearAllToolTips();
+function shouldCheckElement(element) {
+  return ['P', 'H2', 'LI'].includes(element.tagName);
+}
 
-  /*
-  summaryContainer.style.width = getNewWidth(sectionFields, summaryThumbWidth + padding);
-  fieldValuesList.style.width = getNewWidth(sectionFields);
-  */
+function addFieldValues(sectionFields, fieldValuesList, sectionId, mode="mini") {
 
-  if (titlesOnlyMode) {
-    addTitlesOnly(sectionFields, fieldValuesList, section.id);
+  if(mode === 'mini'){
+      const sectionTitle = getSummaryTitle(sectionId);
+      const fieldsCommaList = createFieldCommaList(sectionFields);
+
+      fieldValuesList.appendChild(makeLiElm(sectionTitle, 'title'));
+      fieldValuesList.appendChild(makeLiElm(fieldsCommaList));
   }
+  
 
-  if (fieldValuesList && !titlesOnlyMode) {
-    addFieldValues(sectionFields, fieldValuesList);
+  if(mode === 'list'){
+    sectionFields.forEach((field) => {
+      const value = field.value;
+      const key = field.id;
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `<span>${convertCamelCaseToTitleCase(key)}</span>: ${value}`;
+      fieldValuesList.appendChild(listItem);
+    });
   }
+}
 
-  attachSummaryEventListeners(summaryContainer);
+function createFieldCommaList(sectionFields) {
+  let fieldsCommaList = Array.from(sectionFields)
+      .filter(field => field.type !== 'checkbox' )
+      .map(field => field.value)
+      .join(', ');
 
-  return summaryContainer;
+  return fieldsCommaList
+}
+
+function makeLiElm(value, className='item'){
+  const res = document.createElement('li');
+  res.className = className;
+  res.innerHTML = value;
+  return res;
 }
 
 function addTitlesOnly(sectionFields, fieldValuesList, sectionId) {
   const titleElm = document.createElement('li');
   const summaryElm = document.createElement('li');
-  const sectionTitle = formSections.find((o) => o.sectionId === sectionId)?.title;
+  const sectionTitle = getSummaryTitle(sectionId);
   titleElm.textContent = sectionTitle;
-  summaryElm.textContent = getFieldsSummary(sectionFields);
+  summaryElm.textContent = getFieldsDigest(sectionFields);
   fieldValuesList.appendChild(titleElm);
   fieldValuesList.appendChild(summaryElm);
 }
 
-function getFieldsSummary(nodeList) {
+function getSummaryTitle(sectionId){
+  return formSections.find((o) => o.sectionId === sectionId)?.title;
+}
+
+function getFieldsDigest(nodeList) {
   const summary = {
     inputs: 0,
     selects: 0,
@@ -207,20 +225,9 @@ function getFieldsSummary(nodeList) {
   return summaryString;
 }
 
-
-function addFieldValues(sectionFields, fieldValuesList) {
-  sectionFields.forEach((field) => {
-    const value = field.value;
-    const key = field.id;
-    const listItem = document.createElement('li');
-    listItem.innerHTML = `<strong>${convertCamelCaseToTitleCase(key)}</strong>: ${value}`;
-    fieldValuesList.appendChild(listItem);
-  });
-}
-
-function updateSummaryImage(summaryContainer){
+function updateSummaryImage(summaryContainer, width, height){
   const img = summaryContainer.querySelector('img');
-  img.src = getRandomImageURL(100, 100);
+  img.src = getRandomImageURL(width, height);
 }
 
 function getNewWidth(sectionFields, extraWidth=0){
@@ -232,11 +239,17 @@ function getNewWidth(sectionFields, extraWidth=0){
 
 function createSummaryContainer(sectionId) {
   const summaryContainer = document.createElement('div');
+  const section = document.getElementById(sectionId);
+  summaryContainer.className = isCheckedConfirmCheckbox(section) ? 'confirmed' : '';
   summaryContainer.classList.add('summary-container');
   summaryContainer.innerHTML = summaryTemplates[sectionId] ? summaryTemplates[sectionId] : summaryTemplates.basic;
   summaryContainer.dataset.sectionId = sectionId;
 
   return summaryContainer;
+}
+
+function isCheckedConfirmCheckbox(section) {
+  return section && section.querySelector('.confirmCheckbox:checked') !== null;
 }
 
 function attachSummaryEventListeners(summaryContainer) {
@@ -258,7 +271,7 @@ function handleSummaryClick(event) {
 function handleLeftSummaryClick(event) {
   event.preventDefault();
   event.stopPropagation();
-  console.log("summary", event.target);
+  
   const summaryElm = event.currentTarget;
   const sectionId = summaryElm.dataset.sectionId;
   const styleSheetPickerVal = document.querySelector('#stylePicker').value;
@@ -271,7 +284,6 @@ function handleLeftSummaryClick(event) {
 }
 
 function handleSummaryListClick(event){
-  console.log("list", event.target);
   event.preventDefault();
   event.stopPropagation();
   event.currentTarget.classList.toggle('minimized');
@@ -312,25 +324,79 @@ function handleCenterSummaryClick(event) {
   event.currentTarget.remove();
 }
 
+function createSummary(sectionId, sectionFields, last=false, width=100, height=100) {
+  const summaryContainer = createSummaryContainer(sectionId);
+  const fieldValuesList = summaryContainer.querySelector('.field-values-list');
+  const padding = 10;
+  const titlesOnlyMode = document.querySelector('#titlesOnlyOn').checked;
+  clearAllToolTips();
+
+  if (titlesOnlyMode) {
+    addTitlesOnly(sectionFields, fieldValuesList, sectionId);
+  }
+
+  if (fieldValuesList && !titlesOnlyMode) {
+    const mode = last ? 'list' : 'mini';
+    addFieldValues(sectionFields, fieldValuesList, sectionId, mode);
+  }
+  if(!last){
+    updateSummaryImage(summaryContainer, width, height);
+    attachSummaryEventListeners(summaryContainer);
+  }
+
+  return summaryContainer;
+}
+
+function updateLastSummarySection(){
+  const sectionFields = document.querySelectorAll('.section input:not(input[type="checkbox"]), .section select, .section textarea');
+  const fieldValuesListElm = document.querySelector('.section-summary-last .'+classNames.fieldValuesList);
+  console.log("  fieldValuesListElm",fieldValuesListElm)
+  fieldValuesListElm.innerHTML = '';
+  addFieldValues(sectionFields, fieldValuesListElm, classNames.sectionSummaryLastId, 'list');
+}
+
+function appendLastSummarySection(){
+  const existsCheck = document.querySelector('.section-summary-last');
+  if(existsCheck){
+    return;
+  }
+  const sectionFields = document.querySelectorAll('.section input:not(input[type="checkbox"]), .section select, .section textarea');
+  const summaryElm = createSummary(classNames.sectionSummaryLastId, sectionFields, true);
+  summaryElm.dataset.anchor = 'last-summary-fullpage';
+  const wrapper = document.querySelector('#fullpage'); 
+  summaryElm.classList.add('section-summary-last', 'section');
+  summaryElm.classList.remove('summary-container');
+  
+  wrapper.appendChild(summaryElm);
+  reloadFullPage();
+  setTimeout(() => {
+      fullpage_api.moveSectionDown();
+  }, 250);
+}
+
 function checkLastSummaryListItem() {
   const sections = Array.from(document.querySelectorAll('.section'));
   const summaryItems = Array.from(document.querySelectorAll('.summary-list > .summary-container'));
-  const summaryList = document.querySelector('.summary-list');
-
+    
   if (sections.length === summaryItems.length) {
-    const lastSummaryItem = createLastSummaryItem();
-    appendLastSummaryItem(summaryList, lastSummaryItem);
+    appendLastSummaryItem();
+    appendLastSummarySection();
   }
 }
 
 function createLastSummaryItem() {
   const div = document.createElement('div');
   div.classList.add('summary-container', 'summary-last');
-  div.innerHTML = '<h2>Finished!</h2><p>Click to review all responses.</p>';
+  div.innerHTML = '<h2>Finished</h2><p>Click here to review answers.</p>';
+  div.addEventListener('click', function(){
+      fullpage_api.moveTo(`last-summary-fullpage`);
+  });
   return div;
 }
 
-function appendLastSummaryItem(summaryList, lastSummaryItem) {
+function appendLastSummaryItem() {
+  const summaryList = document.querySelector('.summary-list');
+  const lastSummaryItem = createLastSummaryItem();
   setTimeout(() => {
     summaryList.appendChild(lastSummaryItem);
   }, 0);

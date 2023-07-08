@@ -20,7 +20,7 @@ a{
 
 h2, h3, h4, h1, p{
   margin: 0;
-  padding: 5px 0;
+  padding: 2px 0;
 }
 
 h1{
@@ -31,13 +31,13 @@ h2{
   text-align: center;
   border-radius: 15px;
   font-weight: 400;
-  font-size: 33px;
+  font-size: 23px;
 }
 
 .row{
   display: flex;
   width: 100%;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .col{
@@ -85,11 +85,11 @@ section.main{
 }
 
 .section:nth-child(even) {
-  background-color: #fff6f0;
+  background-color: #fff;
 }
 
 .section:nth-child(odd) h2 {
-  background-color: #fff6f0;
+  background-color: #fff;
 }
 
 .section:nth-child(even) h2 {
@@ -107,6 +107,10 @@ section.main{
 
 .picsum-image img{
   border-radius: 50%;
+}
+
+.title{
+  font-weight: 700;
 }
 
 .toast {
@@ -169,7 +173,54 @@ section.main{
 }
 
 .summary-container.active{
-  outline: 4px solid lightgray;
+  outline: 1px solid lightgray;
+}
+
+.section-summary-last{
+  width: 100%;
+  height: 100vh;
+  cursor: default;
+}
+
+.section-summary-last .row{
+  align-items: flex-start;
+  margin: 0;
+}
+
+.section-summary-last ul{
+  flex-grow: 1;
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 0 0 10px;
+    margin: 0;
+}
+
+.section-summary-last ul li {
+  font-size: 17px !important;
+  line-height: 1.5 !important;
+}
+
+.section-summary-last img{
+  max-width: 380px;
+  height: 380px;
+}
+.section-summary-last p{
+  padding: 0 0 15px 0;
+}
+.section-summary-last h1{
+  margin-bottom: 10px;
+}
+
+.section-summary-last .page-summary{
+    width: 33%;
+    min-width: 480px;
+}
+
+.section-summary-last .page-summary .field-values-list{
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .fade-out {

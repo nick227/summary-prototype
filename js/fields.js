@@ -32,23 +32,25 @@ function generateFormHTML(sections) {
 
 function setupValidationListeners(sections) {
   document.addEventListener('DOMContentLoaded', () => {
-    sections.forEach((sectionName) => {
-      setupFieldListeners(sectionName);
+    sections.forEach((sectionId) => {
+      setupFieldListeners(sectionId);
     });
   });
 }
 
-function setupFieldListeners(sectionName) {
-  const section = document.querySelector(`#${sectionName}`);
-  const sectionFields = section.querySelectorAll('input, select, textarea');
-  const sectionTitle = formSections.find(o => o.sectionId === sectionName).title;
+function setupFieldListeners(sectionId) {
+  console.log(" sectionId: ",sectionId)
+  const section = document.querySelector(`#${sectionId}`);
+  const sectionFields = section.querySelectorAll('input:not(input[type="checkbox"]), select, textarea');
+  const sectionTitle = formSections.find(o => o.sectionId === sectionId).title;
+  const autofillCheckbox = document.querySelector('#autofillOn');
 
   let timeoutId;
 
   sectionFields.forEach((field) => {
 
     field.addEventListener('input', () => {
-      syncSummary(sectionFields);
+      syncSummary(sectionId, sectionFields);
     });
 
     field.addEventListener('focusout', () => {
@@ -56,7 +58,9 @@ function setupFieldListeners(sectionName) {
       timeoutId = setTimeout(() => {
         if (allFieldsHaveValues(sectionFields) && !sectionFieldsActive(sectionFields)) {
           showToast(`All fields in ${sectionTitle} completed.`);
-          showSummary(section, sectionFields);
+          if(!autofillCheckbox.checked){
+              showSummary(section);
+          }
         }
       }, 250);
     });
