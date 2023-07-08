@@ -1,14 +1,7 @@
 
-
-.summary-list {
-  position: fixed;
-  top: 100px;
-  z-index: 20;
-  display: flex;
-  flex-direction: column;
-    left: 0;
-    padding: 20px;
-} 
+.summary-list{
+  width: 350px;
+}
 
 .summary-container{
   z-index: 2;
@@ -23,10 +16,6 @@
   padding: 2px;
 }
 
-.summary-list .summary-container {
-  cursor: pointer;
-}
-
 .summary-container.center{
   position: absolute;
   width: 320px;
@@ -35,7 +24,7 @@
 }
 
 .summary-container.left{
-  width:  350px;
+  width:  100%;
   position: relative;
   margin-bottom: 11px;
 }
@@ -53,7 +42,7 @@
   line-height: 1.5;
   margin: 0;
   padding: 0;
-  width: 290px;
+  width: calc(100% - 65px);
   margin-left: 5px;
 }
 
@@ -62,7 +51,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 15px;
-  min-width: 145px;
+  width: 100%;
   margin: 0px;
   max-height: 100px;
   overflow-y: auto;
@@ -85,7 +74,7 @@
   color: white;
   display: flex;
   animation-delay: 0.1s;
-  width: 315px;
+  width: calc(100%-40px);
   padding: 10px 20px;
 }
 

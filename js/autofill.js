@@ -69,6 +69,7 @@ function handleAutofillConfirm(sectionId, checkboxElm){
     const section = document.querySelector(`#${sectionId}`);
     if(isConfirmChecked){
       showSummary(section);
+      updateStatsInfo();
     	checkboxElm.blur();
     	fullpage_api.moveSectionDown();
     } else {

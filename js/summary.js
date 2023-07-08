@@ -3,6 +3,9 @@ function removeSummary(section) {
   const item = document.querySelector(`div[data-section-id="${section.id}"]`);
   const lastItem = document.querySelector('.'+classNames.summaryLast);
   item.remove();
+  if(item){
+      lastItem.remove();
+  }
   if(lastItem){
       lastItem.remove();
   }
@@ -32,16 +35,37 @@ function showSummary(section, className='') {
 }
 
 function addLeftSummary(summaryElm) {
-  let summaryList = document.querySelector('.summary-list');
+  let summaryList = document.querySelector('.'+classNames.summaryList);
   if (!summaryList) {
+    const summaryListWrapper = document.createElement('div');
+    const toggleElm = document.createElement('div');
+    const statsElm = document.createElement('div');
+    statsElm.textContent = currentStats;
+    statsElm.className = classNames.stats;
+    toggleElm.className = classNames.toggle;
+    summaryListWrapper.className = classNames.summaryListWrapper;
     summaryList = document.createElement('div');
     summaryList.classList.add('summary-list');
     summaryList.addEventListener("click", handleSummaryListClick);
-    document.body.appendChild(summaryList);
+    summaryList.appendChild(toggleElm);
+    summaryList.appendChild(statsElm);
+    summaryListWrapper.appendChild(summaryList);
+    document.body.appendChild(summaryListWrapper);
   }
   upsertSummaryItem(summaryList, summaryElm);
   checkLastSummaryListItem();
 }
+
+function updateStatsInfo() {
+  
+  let str = currentStats.split(' ')[0].split('/');
+  str[0] = Array.from(document.querySelectorAll('.'+classNames.summaryContainer)).length;
+  str[1] = Array.from(document.querySelectorAll('.'+classNames.section)).length;
+  currentStats = str.join('/') + ' sections complete';
+  const statsElm = document.querySelector('.'+classNames.stats);
+  statsElm.textContent = currentStats;
+}
+
 
 function addCenterSummary(section, summaryElm) {
   section.appendChild(summaryElm);
@@ -102,7 +126,7 @@ function syncSummary(sectionId, sectionFields) {
   const section = document.getElementById(sectionId);
   const summaryList = document.querySelector('.'+classNames.summaryList);
   const sectionSummaryLastIdElm = document.querySelector('.section-summary-last');
-console.log("  sync", sectionSummaryLastIdElm)
+
   if(sectionSummaryLastIdElm){
     console.log("  okkkkay", sectionSummaryLastIdElm)
     updateLastSummarySection();
@@ -120,32 +144,6 @@ console.log("  sync", sectionSummaryLastIdElm)
           existingFieldValuesList.appendChild(makeLiElm(fieldsCommaList));
 
       }
-    }
-  }
-}
-
-function getTextContentRecursively(element) {
-  let text = '';
-
-  if (element.nodeType === Node.TEXT_NODE) {
-    text += element.textContent.trim();
-  } else if (element.nodeType === Node.ELEMENT_NODE && shouldCheckElement(element)) {
-    text += element.textContent.trim();
-    for (let child of element.childNodes) {
-      text += getTextContentRecursively(child);
-    }
-  }
-
-  return text;
-}
-
-function setTextContentRecursively(element, text) {
-  if (element.nodeType === Node.TEXT_NODE) {
-    element.textContent = text;
-  } else if (element.nodeType === Node.ELEMENT_NODE && shouldCheckElement(element)) {
-    element.textContent = text;
-    for (let child of element.childNodes) {
-      setTextContentRecursively(child, text);
     }
   }
 }
@@ -362,7 +360,7 @@ function appendLastSummarySection(){
   }
   const sectionFields = document.querySelectorAll('.section input:not(input[type="checkbox"]), .section select, .section textarea');
   const summaryElm = createSummary(classNames.sectionSummaryLastId, sectionFields, true);
-  summaryElm.dataset.anchor = 'last-summary-fullpage';
+  summaryElm.dataset.anchor = classNames.lastSummaryFullpage;
   const wrapper = document.querySelector('#fullpage'); 
   summaryElm.classList.add('section-summary-last', 'section');
   summaryElm.classList.remove('summary-container');
@@ -370,7 +368,7 @@ function appendLastSummarySection(){
   wrapper.appendChild(summaryElm);
   reloadFullPage();
   setTimeout(() => {
-      fullpage_api.moveSectionDown();
+      fullpage_api.moveTo(classNames.lastSummaryFullpage);
   }, 250);
 }
 
@@ -395,7 +393,7 @@ function createLastSummaryItem() {
 }
 
 function appendLastSummaryItem() {
-  const summaryList = document.querySelector('.summary-list');
+  const summaryList = document.querySelector('.'+classNames.summaryList);
   const lastSummaryItem = createLastSummaryItem();
   setTimeout(() => {
     summaryList.appendChild(lastSummaryItem);
@@ -423,7 +421,7 @@ function getRandomImageURL(width, height) {
 }
 
 function clearSummaries() {
-  const summaryList = document.querySelector('.summary-list');
+  const summaryList = document.querySelector('.'+classNames.summaryList);
   if (summaryList) {
     summaryList.remove();
   } else {

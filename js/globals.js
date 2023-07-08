@@ -9,8 +9,12 @@ const classNames = {
   summaryList: 'summary-list',
   summaryLast: 'summary-last',
   autofillOn: 'autofillOn',
+  toggle: 'toggle',
+  stats: 'stats',
   confirmCheckbox: 'confirmCheckbox',
-  sectionSummaryLastId: 'sectionSummaryLastId'
+  sectionSummaryLastId: 'sectionSummaryLastId',
+  lastSummaryFullpage: 'last-summary-fullpage',
+  summaryListWrapper: 'summary-list-wrapper'
 };
 
 const lastSummaryDelay = 2000;
@@ -19,6 +23,7 @@ let fullpage_api = null;
 let toasterTimer = null;
 let summaryMinWidth = 145;
 let summaryThumbWidth = 25;
+let currentStats = '0/0 sections complete';
 
 const formSections = [
   { title: 'Contact Info', sectionId: 'section1', fields: ['name', 'phone', 'city'], values: ['Nick Rios', '(345) 333-4221', 'Austin'] },
@@ -31,7 +36,7 @@ const formSections = [
 const summaryTemplates = {
   basic: `
     <div class="${classNames.picsumImage} row">
-      <img src="https://source.unsplash.com/random/100x100?sig=7" alt="Picsum Image">
+      <img src="https://source.unsplash.com/random/100x100?sig=7" alt="">
       <ul class="${classNames.fieldValuesList}"></ul>
     </div>
   `,
