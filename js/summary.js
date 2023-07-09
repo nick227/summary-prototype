@@ -60,7 +60,7 @@ function updateStatsInfo() {
   
   let str = currentStats.split(' ')[0].split('/');
   str[0] = Array.from(document.querySelectorAll('.'+classNames.summaryContainer)).length;
-  str[1] = Array.from(document.querySelectorAll('.'+classNames.section)).length;
+  str[1] = Array.from(document.querySelectorAll('.section:not(.section-summary-last)')).length;
   currentStats = str.join('/') + ' sections complete';
   const statsElm = document.querySelector('.'+classNames.stats);
   statsElm.textContent = currentStats;
@@ -168,7 +168,7 @@ function addFieldValues(sectionFields, fieldValuesList, sectionId, mode="mini") 
       const value = field.value;
       const key = field.id;
       const listItem = document.createElement('li');
-      listItem.innerHTML = `<span>${convertCamelCaseToTitleCase(key)}</span>: ${value}`;
+      listItem.innerHTML = `<span>${convertCamelCaseToTitleCase(key)}:</span> ${value}`;
       fieldValuesList.appendChild(listItem);
     });
   }

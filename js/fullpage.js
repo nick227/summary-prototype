@@ -1,14 +1,16 @@
 function setupFullpage(anchors) {
   fullpage_api = new fullpage('#fullpage', {
     licenseKey: 'gplv3-license',
-    verticalCentered: true, 
-    anchors: anchors, 
+    verticalCentered: true,
+    anchors: anchors,
     normalScrollElements: '.summary-list, .topbar',
-    afterSlideLoad: function () {
+    afterSlideLoad: function (section, origin, destination, slideIndex) {
       document.body.classList.toggle('alternate');
     },
-    onSlideLeave: function () {
+    onLeave: function (origin, destination, direction) {
+      console.log("direction", direction);
       document.body.classList.toggle('alternate');
+      handleScroll(direction);
     }
   });
 }

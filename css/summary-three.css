@@ -19,8 +19,8 @@
 
 .summary-container .tooltip {
   position: absolute;
-  bottom: 110%;
-  left: 0;
+  bottom: 50%;
+  left: 50%;
   background-color: #f2f2f2;
   color: #333;
   padding: 15px;
@@ -29,7 +29,6 @@
   min-width: 200px;
   border-radius: 15px;
   box-shadow: 0 0 5px 1px rgba(0,0,0,0.2);
-  min-height: 65px;
 }
 
 .summary-container.center .row {
@@ -41,6 +40,10 @@
   margin: 0;
   padding: 0;
   display: none;
+}
+
+.stats{
+  text-align: left;
 }
   
 .summary-container ul li {
@@ -55,17 +58,18 @@
 
 .summary-container.left{
   position: relative;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }
 
 .summary-list {
-  bottom: 30px;
-  left: 30px;
   display: flex;
-  width: 100%;
+  width: 480px;
   justify-content: flex-start;
   align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
 } 
-
 
 .summary-container.center{
   z-index: 2;
@@ -85,15 +89,17 @@
   top: 51%;
 }
 
-.summary-last{
+.summary-list .summary-container.summary-last{
   flex-direction: column;
   background: olivedrab;
   color: white;
-  height: 100px;
   justify-content: flex-start;
   display: flex;
-  padding: 0 20px;
+  padding: 20px;
   justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+
 }
 .summary-last:hover{
   text-decoration: underline;

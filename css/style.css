@@ -44,6 +44,13 @@ h2{
   width: 50%;
 }
 
+.field-container{
+}
+
+label{
+  margin: 20px 0 10px 0;
+}
+
 #stylePicker{
   position: absolute;
   top: 2px;
@@ -56,19 +63,69 @@ section.main{
   width: 100%;
   height: 100%;
 }
+
 .section {
+  position: relative;
+  z-index: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
-  z-index: 0;
 }
+
+.section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  opacity: 0;
+  animation: fade-in-partial 7s forwards;
+  z-index: -1;
+}
+
+.section:nth-child(1)::before {
+  background-image: url(https://images.unsplash.com/uploads/1413222992504f1b734a6/1928e537?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3870&q=80);
+}
+
+.section:nth-child(3)::before {
+  background-image: url(https://plus.unsplash.com/premium_photo-1681400521239-676868f20d83?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2274&q=80);
+}
+
+.section:nth-child(2)::before {
+  background-image: url(https://images.unsplash.com/photo-1487700160041-babef9c3cb55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2652&q=80);
+}
+
+.section:nth-child(4)::before {
+  background-image: url(https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80);
+}
+
+.section:nth-child(5)::before {
+  background-image: url(https://images.unsplash.com/photo-1587190612551-6ae2b5a59951?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80);
+}
+
+
+@keyframes fade-in-partial {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 
 .fp-overflow{
   overflow-x: hidden;
   position: relative;
+  background: #f2f2f2;
+  padding: 20px;
+  border-radius: 15px;
 }
 
 .section .confirm-container{
@@ -78,6 +135,8 @@ section.main{
   white-space: nowrap;
   padding: 0;
   margin: 20px 0;
+  background: white;
+  border-radius: 10px;
 }
 
 .section:nth-child(odd) {
@@ -150,7 +209,6 @@ section.main{
   width: 150px;
 }
 
-
 .topbar{
   display: flex;
   flex-direction: column;
@@ -162,6 +220,16 @@ section.main{
   height: 80px;
   z-index: 1;
   background: white;
+  transition: all 0.5s;
+}
+
+.topbar.mini {
+  height: 44px;
+  box-shadow: 0 2px 13px rgba(0, 0, 0, 0.1);
+}
+
+.topbar.mini .controls, .topbar.mini select {
+  display: none;
 }
 
 .topbar .controls{
@@ -171,7 +239,6 @@ section.main{
   right: 20px;
   white-space: nowrap;
 }
-
 
 .summary-container h3{
   background: transparent;
@@ -192,6 +259,15 @@ section.main{
   cursor: default;
 }
 
+.section-summary-last ul{
+  list-style-type: decimal;
+}
+
+.section-summary-last ul li:hover{
+  background: #f2f2f2;
+  cursor: pointer;
+}
+
 .section-summary-last .row{
   align-items: flex-start;
   margin: 0;
@@ -203,7 +279,7 @@ section.main{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0 0 0 10px;
+    padding: 0 0 0 20px;
     margin: 0;
 }
 
@@ -213,24 +289,33 @@ section.main{
 }
 
 .section-summary-last img{
-  max-width: 380px;
-  height: 380px;
+  max-width: 420px;
+  height: 400px;
 }
+
 .section-summary-last p{
   padding: 0 0 15px 0;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
-.section-summary-last h1{
-  margin-bottom: 10px;
+
+.topbar h1{
+  font-size: 18px;
+}
+
+h1{
+  font-size: 55px;
 }
 
 .section-summary-last .page-summary{
-    width: 33%;
-    min-width: 480px;
+  width: 33%;
+  min-width: 480px;
 }
 
 .section-summary-last .page-summary .field-values-list{
   max-height: 400px;
   overflow-y: auto;
+  padding-left: 25px;
 }
 
 
@@ -238,7 +323,7 @@ section.main{
 .summary-list-wrapper {
   position: fixed;
   top: 100px;
-    left: 0;
+  left: 0;
 }
 
 .summary-list {
@@ -250,32 +335,58 @@ section.main{
 } 
 
 .summary-list .toggle::after {
-content: '<<';
-position: absolute;
-right: 20px;
-top: 0;
-width: 20px;
-height: 30px;
-background: transparent;
-cursor: pointer;
-color: gray;
-text-align: center;
+  content: '<<';
+  position: absolute;
+  right: 20px;
+  top: 0;
+  width: 20px;
+  height: 21px;
+  background: transparent;
+  cursor: pointer;
+  color: gray;
+  text-align: center;
+  transition: background 1s;
+  border-radius: 50%;
 }
+
+.summary-list:hover .toggle::after  {
+  color: black;
+}  
 
 .summary-list .toggle:hover::after  {
-  color: black;
-
+  background: rgba(255,255,255,0.5);
 }
 
-.minimized{
-  width: 40px !important;
-  height: 40px !important;
-  overflow: hidden;
+.summary-list .toggle:active::after  {
+  color: darkcyan;
+  background: rgba(255,255,255,1);
+}
+
+.summary-list.minimized {
   background: #e6e6e6;
+  width: 60px !important;
+  height: 60px;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.minimized .stats, .minimized .field-values-list{
+.summary-list.minimized .toggle::after {
+  content: '>>' !important;
+}
+
+.summary-list.minimized .stats, .minimized .summary-container {
   display: none;
+}
+
+.summary-list.minimized .toggle{
+  position: relative;
+  width: 60px;
+  height: 20px;
+  font-weight: 700;
 }
 
 .stats{
@@ -284,28 +395,42 @@ text-align: center;
   padding: 5px 10px;
 }
 
-.minimized .toggle::after {
-  content: '>>' !important;
-}
-
 .summary-list:hover::after {
   opacity: 1;
 }
 
 .summary-list .summary-container {
   cursor: pointer;
+  animation: pop-in 0.5s forwards;
+  position: relative;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.summary-last{
+.summary-list .summary-container.summary-last{
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   background: olivedrab;
   color: white;
+  animation-delay: 1.2s;
 }
 
-
-
+@keyframes pop-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.055);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
 .fade-out {
   animation-name: fadeOut;

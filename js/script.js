@@ -1,26 +1,40 @@
 
-const section = document.querySelector('section');
-const formHTML = generateFormHTML(formSections);
+document.addEventListener('DOMContentLoaded', start);
 
-section.innerHTML = section.innerHTML + formHTML;
+function start(){
 
-const keys = formSections.map(section => section.sectionId);
+  const sections = createSections();
 
-setupFullpage(keys.map(name => name+'-fullpage'));
+  setupFullpage(sections.keys.map(name => name+'-fullpage'));
 
-setupStylePicker();
+  setupValidationListeners(sections.keys);
 
-setupAutoFill();
+  initializeMasks(sections.fields);
 
-setupValidationListeners(keys);
+  setupStylePicker();
 
-document.addEventListener('DOMContentLoaded', function() {
-  const fields = []
+  setupAutoFill();
+
+  setupInlineEdit();
+
+  setupTopBar();
+
+}
+
+
+function createSections(){
+
+  const section = document.querySelector('section');
+  const formHTML = generateFormHTML(formSections);
+  const fields = [];
   formSections.forEach((section) => {
     fields.push(...section.fields);
   });
 
-  initializeMasks(fields);
+  section.innerHTML = section.innerHTML + formHTML;
 
+  const keys = formSections.map(section => section.sectionId);
 
-});
+  return { keys: keys, fields: fields };
+
+}

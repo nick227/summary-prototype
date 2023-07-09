@@ -10,6 +10,7 @@ const classNames = {
   summaryLast: 'summary-last',
   autofillOn: 'autofillOn',
   toggle: 'toggle',
+  topbar: 'topbar',
   stats: 'stats',
   confirmCheckbox: 'confirmCheckbox',
   sectionSummaryLastId: 'sectionSummaryLastId',
@@ -23,6 +24,7 @@ let fullpage_api = null;
 let toasterTimer = null;
 let summaryMinWidth = 145;
 let summaryThumbWidth = 25;
+let lastScrollTop = 0;
 let currentStats = '0/0 sections complete';
 
 const formSections = [
